@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>住宅租賃物業管理契約書 - 永泰物業</title>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <style>
+        body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; padding: 20px; line-height: 1.6; max-width: 800px; margin: auto; color: #333; }
+        .contract-container { border: 2px solid #2c3e50; padding: 30px; background: #fff; }
+        h1 { text-align: center; font-size: 22px; margin-bottom: 20px; }
+        h3 { border-bottom: 1px solid #eee; padding-bottom: 5px; margin-top: 20px; color: #2c3e50; }
+        .input-line { border: none; border-bottom: 1px solid #000; outline: none; padding: 2px 5px; font-size: 16px; }
+        .checkbox-group { margin: 10px 0; }
+        .sig-area { border: 2px dashed #bdc3c7; background: #f9f9f9; width: 100%; height: 200px; margin-top: 10px; }
+        .footer-info { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .btn-box { position: fixed; bottom: 20px; right: 20px; }
+        button { padding: 12px 25px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        @media print { .btn-box { display: none; } .contract-container { border: none; } .sig-area { border: 1px solid #000; } }
+    </style>
+</head>
+<body>
+
+<div class="contract-container">
+    <h1>住宅租賃物業管理契約書</h1>
+    
+    <p>委託人 <input type="text" class="input-line" style="width:150px"> (以下簡稱甲方) 將下列不動產標的物，委託 <strong>永泰物業管理顧問有限公司</strong> (以下簡稱乙方) 居間代為管理出租 [cite: 1]。</p>
+
+    <h3>第一條：委託項目</h3>
+    <p>甲方委託乙方處理：1. 代租事宜 2. 代管事務 [cite: 1]。</p>
+
+    <h3>第二條：委託期間</h3>
+    <p>自簽訂日起二年為有效期(若委託人要中途解約請提前一個月告知)，至民國 <input type="text" class="input-line" style="width:40px"> 年 <input type="text" class="input-line" style="width:30px"> 月 <input type="text" class="input-line" style="width:30px"> 日止 [cite: 1]。</p>
+
+    <h3>第三條：不動產標示</h3>
+    <p>地址：<input type="text" class="input-line" style="width:80%;"> [cite: 2]</p>
+    <p>租金：<input type="text" class="input-line" style="width:100px"> 元/月 [cite: 2]</p>
+    <div class="checkbox-group">
+        包含項目：<input type="checkbox"> 電費 <input type="checkbox"> 水費 <input type="checkbox"> 瓦斯費 <input type="checkbox"> 網路 <input type="checkbox"> 管理費 [cite: 2]
+    </div>
+
+    <h3>第四條：甲方授權事項</h3>
+    <p>1. <strong>甲方同意授權永泰物業管理顧問有限公司代為簽訂租賃合約及辦理房屋點交事宜</strong> 。</p>
+    <p>2. 甲方應提供權狀、收租帳戶、身分證件等，以證明產權所有。 。</p>
+
+    <h3>第七條：服務報酬</h3>
+    <div class="checkbox-group">
+        <input type="checkbox"> 代租：一個月租金 <br>
+        <input type="checkbox"> 代管：月租金10% (未足1000元以1000元計) <br>
+        <input type="checkbox"> 代租+代管 (10年內新大樓)：1.5個月租金 <br>
+        <input type="checkbox"> 代租+代管 (10年以上房屋)：2個月租金 
+    </div>
+
+    <h3>第十一條：特約條款</h3>
+    <p>1. 出租房屋若自然使用損壞出租人須負擔修繕責任 。<br>2. 業務人員不得代收租金 。</p>
+
+    <div class="footer-info">
+        <div>
+            <strong>甲方(委託人)簽章處：</strong><br>
+            <canvas id="sig-pad" class="sig-area"></canvas>
+            <button onclick="clearSig()" style="background:#95a5a6; padding:5px 10px; font-size:12px; margin-top:5px;">清除重簽</button>
+        </div>
+        <div>
+            <p>身分證字號：<input type="text" class="input-line" style="width:150px"> </p>
+            <p>聯絡手機：<input type="text" class="input-line" style="width:150px"> </p>
+            <p>簽署日期：<input type="text" class="input-line" style="width:120px"> </p>
+        </div>
+    </div>
+</div>
+
+<div class="btn-box">
+    <button onclick="savePDF()">確認無誤，產出 PDF</button>
+</div>
+
+<script>
+    const canvas = document.getElementById('sig-pad');
+    const signaturePad = new SignaturePad(canvas);
+
+    function resizeCanvas() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+    }
+    window.onresize = resizeCanvas;
+    window.onload = resizeCanvas;
+
+    function clearSig() { signaturePad.clear(); }
+    function savePDF() {
+        if (signaturePad.isEmpty()) {
+            alert("屋主請先完成簽名");
+        } else {
+            window.print();
+        }
+    }
+</script>
+
+</body>
+</html>
